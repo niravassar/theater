@@ -1,5 +1,6 @@
 package com.virtualpairprogrammers.theater.control
 
+import com.virtualpairprogrammers.theater.services.BookingService
 import com.virtualpairprogrammers.theater.services.TheaterService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -13,6 +14,9 @@ class MainController {
     @Autowired
     lateinit var theaterService : TheaterService
 
+    @Autowired
+    lateinit var bookingService: BookingService
+
     @RequestMapping("helloWorld")
     fun helloWorld(): ModelAndView {
         return ModelAndView("helloWorld")
@@ -23,10 +27,10 @@ class MainController {
 
     @RequestMapping("checkAvailability", method = arrayOf(RequestMethod.POST))
     fun checkAvailability(bean : CheckAvailabilityBackBean) : ModelAndView {
-        val seat = theaterService.find(bean.selectedSeatNum, bean.selectedSeatRow)
-        val backBean = CheckAvailabilityBackBean()
-        backBean.result = "Seat check is row: ${ bean.selectedSeatRow}, seat ${bean.selectedSeatNum}. It is available: $seat"
-        return ModelAndView("seatBooking", "bean", backBean)
+        val selectedSeat = theaterService.find(bean.selectedSeatNum, bean.selectedSeatRow)
+        val available = bookingService.isSeatFree(selectedSeat)
+        bean.result = "Seat check is row: ${ bean.selectedSeatRow}, seat ${bean.selectedSeatNum}. It exists and priced at: $selectedSeat. Availability: $available"
+        return ModelAndView("seatBooking", "bean", bean)
     }
 
 }
