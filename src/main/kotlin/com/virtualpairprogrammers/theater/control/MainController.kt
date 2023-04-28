@@ -1,5 +1,6 @@
 package com.virtualpairprogrammers.theater.control
 
+import com.virtualpairprogrammers.theater.data.SeatRepository
 import com.virtualpairprogrammers.theater.services.BookingService
 import com.virtualpairprogrammers.theater.services.TheaterService
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,6 +18,9 @@ class MainController {
     @Autowired
     lateinit var bookingService: BookingService
 
+    @Autowired
+    lateinit var seatRepository: SeatRepository
+
     @RequestMapping("helloWorld")
     fun helloWorld(): ModelAndView {
         return ModelAndView("helloWorld")
@@ -31,6 +35,14 @@ class MainController {
         val available = bookingService.isSeatFree(selectedSeat)
         bean.result = "Seat check is row: ${ bean.selectedSeatRow}, seat ${bean.selectedSeatNum}. It exists and priced at: $selectedSeat. Availability: $available"
         return ModelAndView("seatBooking", "bean", bean)
+    }
+
+    @RequestMapping("bootstrap")
+    fun createInitialData() : ModelAndView {
+        // create data save to database
+        val seats = theaterService.seats
+        seatRepository.saveAll(seats)
+        return homePage()
     }
 
 }

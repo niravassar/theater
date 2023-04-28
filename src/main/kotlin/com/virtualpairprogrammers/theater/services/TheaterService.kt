@@ -33,7 +33,7 @@ class TheaterService {
 
         for (row in 'A'..'O') {
             for (num in 1..36) {
-                hiddenSeats.add(Seat(row, num, getPrice(row,num), getDescription(row,num) ))
+                hiddenSeats.add(Seat(0, row, num, getPrice(row,num), getDescription(row,num) ))
             }
         }
     }
