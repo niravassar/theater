@@ -25,10 +25,10 @@ class PerformanceController() {
     fun addPerformance() =
             ModelAndView("performances/add","performance",Performance(0,""))
 
-    @RequestMapping("save", method = arrayOf(RequestMethod.POST))
+    @RequestMapping("/save", method = arrayOf(RequestMethod.POST))
     fun savePerformance(performance: Performance) : String {
         performanceRepository.save(performance)
-        return "redirect:/performances/"
+        return "redirect:/performances"
     }
 
 }
