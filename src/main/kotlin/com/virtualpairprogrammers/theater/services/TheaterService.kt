@@ -11,7 +11,7 @@ class TheaterService {
 
     constructor() {
 
-        fun getPrice(row: Char, num: Int) : BigDecimal {
+        fun calcPrice(row: Char, num: Int) : BigDecimal {
             return when {
                 row >= 'N' -> BigDecimal(14.50)
                 num <=3 || num >= 34 -> BigDecimal(16.50)
@@ -21,7 +21,7 @@ class TheaterService {
 
         }
 
-        fun getDescription(row: Char, num: Int) : String {
+        fun calcDescription(row: Char, num: Int) : String {
             return when {
                 row == 'O' -> "Back Row"
                 row == 'N' -> "Cheaper Seat"
@@ -33,7 +33,7 @@ class TheaterService {
 
         for (row in 'A'..'O') {
             for (num in 1..36) {
-                hiddenSeats.add(Seat(0, row, num, getPrice(row,num), getDescription(row,num) ))
+                hiddenSeats.add(Seat(0, row, num, calcPrice(row,num), calcDescription(row,num) ))
             }
         }
     }
